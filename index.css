@@ -1,0 +1,162 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+.no-display{
+    display: none;
+}
+
+.error{
+    color:red;
+}
+
+/*****************************************Nav***************************/
+.nav{
+    background-color: lightgrey;
+}
+
+nav{
+    text-align: center;
+    padding: 10px;
+}
+
+nav h1 {
+    margin: 5px;
+}
+
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    padding: 10px;
+    position: relative;
+}
+ 
+nav ul li a{
+    text-decoration: none;
+    color: black;
+}
+
+/**********************************form*******************************/
+form{
+    margin-bottom: 35px;
+}
+
+/*************************************items****************************/
+.page-title{
+    background-color: lightgrey;
+    width: 100%;
+    margin: 20px;
+}
+
+.items{
+    margin:10px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.item-card{
+    width: 100%;
+    height: 50px;
+    background: lightgrey;
+    margin: 10px;
+    padding: 10px;
+}
+
+.item-section{
+    background-color: lightgray;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.section-wrapper{
+    width: 100%;
+    margin: 20px;
+    background-color: lightgray;
+}
+
+.section-title{
+    padding: 10px;
+}
+
+.item-card:hover{
+    cursor: pointer;
+}
+
+.teams-card{
+    background-color: white;
+}
+
+/*********************************media queries*******************************/
+
+@media only screen and (min-width: 600px) {
+    .items{
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .items-section{
+        justify-content: flex-start;
+    }
+
+    .item-card{
+        max-width: 47%;
+    }
+
+    .item-section .item-card{
+        max-width: 45%;
+    }
+
+}
+
+@media only screen and (min-width: 1280px) {
+    .items{
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .items-section{
+        justify-content: flex-start;
+    }
+
+    .item-card{
+        max-width: 31%;
+    }
+
+    .item-section .item-card{
+        max-width: 31%;
+    }
+}
+
+@media only screen and (min-width: 1750px) {
+    .items{
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .item-card{
+        width: 23%;
+    }
+
+    .item-section .item-card{
+        width: 23%;
+    }
+
+}
