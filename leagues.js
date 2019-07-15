@@ -16,19 +16,6 @@ const league_data = `{
                 "is_current": 1
             },
             {
-                "league_id": 294,
-                "name": "Major League Soccer",
-                "country": "USA",
-                "country_code": "US",
-                "season": 2019,
-                "season_start": "2019-03-02",
-                "season_end": "2019-10-06",
-                "logo": "https:\/\/www.api-football.com\/public\/leagues\/294.png",
-                "flag": "https:\/\/www.api-football.com\/public\/flags\/us.svg",
-                "standings": 1,
-                "is_current": 1
-            },
-            {
                 "league_id": 311,
                 "name": "Copa America",
                 "country": "World",

@@ -40,10 +40,10 @@ nav ul li {
     padding: 10px;
     position: relative;
 }
- 
-nav ul li a{
-    text-decoration: none;
-    color: black;
+
+
+.nav-home:hover{
+    cursor: pointer;
 }
 
 /**********************************form*******************************/
@@ -104,6 +104,13 @@ form{
     background-color: white;
 }
 
+.schedule-card{
+    background-color: white;
+}
+
+.standings-table th{
+    padding: 5px;
+}
 /*********************************media queries*******************************/
 
 @media only screen and (min-width: 600px) {
