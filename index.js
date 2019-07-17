@@ -1,16 +1,11 @@
-//TODO: Make sections in all views into tabs
+//TODO: Modal for team roster view
+//TODO: add url routing (so user can click back on browser)
+//Add loading message/animation
 
 "use strict";
 const URL = 'https://api-football-v1.p.rapidapi.com/v2/';
 const API_KEY = 'c320accca4msh5912334e6a8f069p1af71cjsnffb1c61ee173';
 
-//Get List of leagues
-//Make call
-const params = {
-    path: 'leagues/season/2019',
-    method: 'GET',
-    api_key: API_KEY,
-}
 
 function displayLeagues() {
     let resp = JSON.parse(league_data);
@@ -19,6 +14,16 @@ function displayLeagues() {
     //console.log(array);
     elem.empty();
     createLeagueCards(array, elem);
+}
+
+function createLeagueCards(array, appendTo){
+    appendTo.append(`<ul class="league-list item-section"></ul>`);
+    array.forEach(element => {
+        let str = `<li role="button" class="league-btn item-card leagues-card" data-name="${element.name}" data-val="${element.league_id}">
+                        <span>${element.name}</span>
+                    </li>`;
+        $('.league-list').append(str);
+    });
 }
 
 function getLeagueDetails(title, id){
@@ -31,27 +36,18 @@ function getLeagueDetails(title, id){
     getLeagueStandings(id);
 }
 
-// function displayLeagueDetails(title, response){
-//     let elem = $('.items');
-
-//     elem.empty();
-//     addSubTitle(elem, title);
-//     createScheduleSection(elem, response);
-//     createTeamSection(elem, response);
-//     createStandingSection(elem, response);
-// }
-
 function getLeagueSchedule(id){
     let url = URL + 'fixtures/league/' + id;
     fetch(url, {
-            method: params.method,
+            method: 'GET',
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
         }).then(response => response.json())
         .then(responseJson =>
-            createScheduleSection(responseJson));
-            //console.log(responseJson));
+            createScheduleSection(responseJson))
+        .catch(err => {$('.errors').append(`There was an error getting schedules: ${err.message}`);
+    });
 }
 
 function createScheduleSection(response){
@@ -85,18 +81,18 @@ function getRound(array){
 
 function createScheduleCards(array, type){
     let str = getRound(array);
-    console.log(str);
+    //console.log(str);
+    $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
 
     array.forEach(element => {
         if(element.round === str){
             let date = new Date(element.event_date);
-
-            console.log(date.toString());
-            let str = `<div role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
+            //console.log(date.toString());
+            let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
                             <div>${element.homeTeam.team_name} vs ${element.awayTeam.team_name}</div>
                             <div>${date}</div>
-                        </div>`;
-            $(`.${type}`).append(str);
+                        </li>`;
+            $(`.${type}-list`).append(str);
         }
         
     });
@@ -105,13 +101,15 @@ function createScheduleCards(array, type){
 function getLeagueTeams(id){
     let url = URL + 'teams/league/' + id;
     fetch(url, {
-            method: params.method,
+            method: 'GET',
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
         }).then(response => response.json())
         .then(responseJson =>
-            createTeamSection(responseJson));
+            createTeamSection(responseJson))
+        .catch(err => {c$('.errors').append(`There was an error getting Teams: ${err.message}`);
+        });
             //console.log(responseJson));
 }
 
@@ -123,16 +121,30 @@ function createTeamSection(response){
     createTeamCards(teamsArray, 'teams');
 }
 
+function createTeamCards(array, type){
+
+    $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
+
+    array.forEach(element => {
+        let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.team_id}">
+                        <span>${element.name}</span>
+                    </li>`;
+        $(`.${type}-list`).append(str);
+    });
+}
+
 function getLeagueStandings(id){
     let url = URL + 'leagueTable/' + id;
     fetch(url, {
-            method: params.method,
+            method: 'GET',
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
         }).then(response => response.json())
         .then(responseJson =>
-            createStandingSection(responseJson));
+            createStandingSection(responseJson))
+            .catch(err => {$('.errors').append(`There was an error getting Standings: ${err.message}`);
+        });
             //console.log(responseJson));
 }
 
@@ -144,38 +156,20 @@ function createStandingSection(response){
 
 function addSubTitle(element, title){
     element.append(`<div class="page-title">
-                        <h2>${title}</h2>
+                        <h1>${title}</h1>
                     </div>`);
 }
 
 function addSectionWrapper(element, section, type){
     element.append(`<div class="section-wrapper">
-    <div class="section-title">
+    <h2 class="section-title">
         ${section}
-    </div>
+    </h2>
     <div class="item-section ${type}">`);
 }
 
-function createLeagueCards(array, appendTo){
-    array.forEach(element => {
-        let str = `<div role="button" class="league-btn item-card leagues-card" data-name="${element.name}" data-val="${element.league_id}">
-                        <span>${element.name}</span>
-                    </div>`;
-        appendTo.append(str);
-    });
-}
-
-function createTeamCards(array, type){
-    array.forEach(element => {
-        let str = `<div role="button" class="${type}-btn item-card ${type}-card" data-val="${element.team_id}">
-                        <span>${element.name}</span>
-                    </div>`;
-        $(`.${type}`).append(str);
-    });
-}
-
 function createStandingTable(type, response){
-    console.log(response);
+    //console.log(response);
     const standArray = response.api.standings[0];
 
     $(`.${type}`).append(`<table class="${type}-table"></table>`);
@@ -218,7 +212,7 @@ function createStandingTableRows(array, type){
 
 }
 
-function btnClick() {
+function eventListeners() {
     $('.items').on('click', '.league-btn', function () {
         let val = $(this).attr('data-val');
         let leagueName = $(this).attr('data-name');
@@ -234,9 +228,9 @@ function btnClick() {
     });
 }
 
-function prog() {
+function main() {
     displayLeagues();
-    btnClick();
+    eventListeners();
 }
 
-$(prog());
+$(main());
