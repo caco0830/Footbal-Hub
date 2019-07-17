@@ -59,6 +59,7 @@ form{
     flex-wrap: wrap;
     justify-content: center;
     padding: 0;
+    width: 100%;
 }
 
 .page-title{
