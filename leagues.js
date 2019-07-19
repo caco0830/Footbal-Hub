@@ -16,19 +16,6 @@ const league_data = `{
                 "is_current": 1
             },
             {
-                "league_id": 311,
-                "name": "Copa America",
-                "country": "World",
-                "country_code": null,
-                "season": 2019,
-                "season_start": "2019-06-15",
-                "season_end": "2019-07-07",
-                "logo": "https:\/\/www.api-football.com\/public\/leagues\/311.png",
-                "flag": null,
-                "standings": 1,
-                "is_current": 1
-            },
-            {
                 "league_id": 357,
                 "name": "Serie A",
                 "country": "Brazil",
@@ -68,19 +55,6 @@ const league_data = `{
                 "is_current": 1
             },
             {
-                "league_id": 530,
-                "name": "Champions League",
-                "country": "World",
-                "country_code": null,
-                "season": 2019,
-                "season_start": "2019-06-25",
-                "season_end": "2019-07-30",
-                "logo": "https:\/\/www.api-football.com\/public\/leagues\/132.png",
-                "flag": null,
-                "standings": 0,
-                "is_current": 1
-            },
-            {
                 "league_id": 566,
                 "name": "Eredivisie",
                 "country": "Netherlands",
@@ -108,7 +82,7 @@ const league_data = `{
             },
             {
                 "league_id": 87,
-                "name": "Primera Division",
+                "name": "La Liga",
                 "country": "Spain",
                 "country_code": "ES",
                 "season": 2018,

@@ -1,25 +1,25 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
 }
 
-.no-display{
+.no-display {
     display: none;
 }
 
-.error{
-    color:red;
+.error {
+    color: red;
 }
 
 /*****************************************Nav***************************/
-.nav{
+.nav {
     background-color: lightgrey;
 }
 
-nav{
+nav {
     text-align: center;
     padding: 10px;
 }
@@ -42,18 +42,18 @@ nav ul li {
 }
 
 
-.nav-home:hover{
+.nav-home:hover {
     cursor: pointer;
 }
 
 /**********************************form*******************************/
-form{
+form {
     margin-bottom: 35px;
 }
 
 /*************************************items****************************/
 
-.items ul{
+.items ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -62,14 +62,14 @@ form{
     width: 100%;
 }
 
-.page-title{
+.page-title {
     background-color: lightgrey;
     width: 100%;
     margin: 20px;
 }
 
-.items{
-    margin:10px;
+.items {
+    margin: 10px;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
@@ -78,7 +78,7 @@ form{
     align-content: center;
 }
 
-.item-card{
+.item-card {
     width: 100%;
     min-height: 50px;
     background: white;
@@ -86,7 +86,7 @@ form{
     padding: 10px;
 }
 
-.item-section{
+.item-section {
     background-color: lightgray;
     margin: 10px;
     display: flex;
@@ -96,83 +96,131 @@ form{
     align-content: center;
 }
 
-.section-wrapper{
+.section-wrapper {
     width: 100%;
     margin: 20px;
     background-color: lightgray;
 }
 
-.section-title{
+.section-title {
     padding: 10px;
 }
 
-.item-card:hover{
+.item-card:hover {
     cursor: pointer;
 }
 
-.teams-card{
+.teams-card {
     background-color: white;
 }
 
-.schedule-card{
+.schedule-card {
     background-color: white;
 }
 
-.standings-table th{
+.standings-table th {
     padding: 5px;
 }
+
+/***************************** MODAL********************/
+
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    text-align: center;
+}
+
+.modal-noDisplay {
+    display: none;
+}
+
+/* The Close Button */
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.player-table{
+    margin: auto;
+}
+
 /*********************************media queries*******************************/
 
 @media only screen and (min-width: 600px) {
-    .items{
+    .items {
         flex-direction: row;
+        justify-content: center;
+    }
+
+    .items-section {
         justify-content: flex-start;
     }
 
-    .items-section{
-        justify-content: flex-start;
-    }
-
-    .item-card{
+    .item-card {
         max-width: 47%;
     }
 
-    .item-section .item-card{
+    .item-section .item-card {
         max-width: 45%;
     }
 
 }
 
 @media only screen and (min-width: 1280px) {
-    .items{
+    .items {
         flex-direction: row;
+        justify-content: center;
+    }
+
+    .items-section {
         justify-content: flex-start;
     }
 
-    .items-section{
-        justify-content: flex-start;
-    }
-
-    .item-card{
+    .item-card {
         max-width: 31%;
     }
 
-    .item-section .item-card{
+    .item-section .item-card {
         max-width: 31%;
     }
 }
 
 @media only screen and (min-width: 1750px) {
-    .items{
+    .items {
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: center;
     }
 
-    .item-card{
+    .item-card {
         width: 23%;
     }
 
-    .item-section .item-card{
+    .item-section .item-card {
         width: 23%;
     }
 

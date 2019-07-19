@@ -13,6 +13,7 @@ function displayLeagues() {
     let elem = $('.items');
     //console.log(array);
     elem.empty();
+    elem.append('<h1>Select a League</h1>');
     createLeagueCards(array, elem);
 }
 
@@ -26,11 +27,26 @@ function createLeagueCards(array, appendTo){
     });
 }
 
-function getLeagueDetails(title, id){
+function teamViewSetup(title){
     let elem = $('.items');
     elem.empty();
     addSubTitle(elem, title);
+    addSectionWrapper(elem, 'Upcoming Games', 'schedule');
+    addSectionWrapper(elem, 'Teams', 'teams');
+    addSectionWrapper(elem, 'Standings', 'standings');
+}
 
+function addSectionWrapper(element, section, type){
+    console.log('Adding Wrappers' + section + type + element);
+    element.append(`<div class="section-wrapper">
+    <h2 class="section-title">
+        ${section}
+    </h2>
+    <div class="item-section ${type}"><img class="loading-${type}" src="./resources/ajax-loader.gif"></div></div>`);
+}
+
+function getLeagueDetails(title, id){
+    let elem = $('.items');
     getLeagueSchedule(id);
     getLeagueTeams(id);
     getLeagueStandings(id);
@@ -43,7 +59,8 @@ function getLeagueSchedule(id){
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
-        }).then(response => response.json())
+        })
+        .then(response => response.json())
         .then(responseJson =>
             createScheduleSection(responseJson))
         .catch(err => {$('.errors').append(`There was an error getting schedules: ${err.message}`);
@@ -53,18 +70,14 @@ function getLeagueSchedule(id){
 function createScheduleSection(response){
     let elem = $('.items');
     const array = response.api.fixtures;
-    //console.log(array);
-
-    addSectionWrapper(elem, 'Upcoming Games', 'schedule');
     createScheduleCards(array, 'schedule');
+    $('.loading-schedule').addClass('no-display');
 }
 
 function getRound(array){
     let r = '';
     let today = new Date();
-    //console.log(today);
     let d = new Date(array[0].event_date);
-    //console.log(d);
 
     for(let i = 0; i < array.length; i++){
         let d = new Date(array[i].event_date);
@@ -73,29 +86,42 @@ function getRound(array){
         }
 
         if(today >= d){
-            r = array[i+1].round;
+            if(i != array.length -1){
+                r = array[i+1].round;
+            }else{
+                r = 'No Upcomming Games';
+            }
         }
     }
     return r;
 }
 
 function createScheduleCards(array, type){
-    let str = getRound(array);
-    //console.log(str);
-    $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
+    console.log(array.length);
+    if(array.length > 0){
+        let str = getRound(array);
+        if(str !== 'No Upcomming Games'){
+            $(`.loading-${type}`).addClass('no-display');
+            $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
 
-    array.forEach(element => {
-        if(element.round === str){
-            let date = new Date(element.event_date);
-            //console.log(date.toString());
-            let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
-                            <div>${element.homeTeam.team_name} vs ${element.awayTeam.team_name}</div>
-                            <div>${date}</div>
-                        </li>`;
-            $(`.${type}-list`).append(str);
+            array.forEach(element => {
+                if(element.round === str){
+                    let date = new Date(element.event_date);
+                    let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
+                                    <div>${element.homeTeam.team_name} vs ${element.awayTeam.team_name}</div>
+                                    <div>${date}</div>
+                                </li>`;
+                    $(`.${type}-list`).append(str);
+                }
+                
+            });
+        }else{
+            $(`.${type}`).append('<span>The schedule is currently not available</span>');
         }
-        
-    });
+    }else{
+        $(`.${type}`).append('<span>The schedule is currently not available</span>');
+    }
+    
 }
 
 function getLeagueTeams(id){
@@ -105,20 +131,19 @@ function getLeagueTeams(id){
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
-        }).then(response => response.json())
+        })
+        .then(response => response.json())
         .then(responseJson =>
             createTeamSection(responseJson))
-        .catch(err => {c$('.errors').append(`There was an error getting Teams: ${err.message}`);
+        .catch(err => {$('.errors').append(`There was an error getting Teams: ${err.message}`);
         });
-            //console.log(responseJson));
 }
 
 function createTeamSection(response){
     let elem = $('.items');
     const teamsArray = response.api.teams;
-    //console.log(teamsArray);
-    addSectionWrapper(elem, 'Teams', 'teams');
     createTeamCards(teamsArray, 'teams');
+    $('.loading-teams').addClass('no-display');
 }
 
 function createTeamCards(array, type){
@@ -140,18 +165,22 @@ function getLeagueStandings(id){
             headers: {
                 'X-RapidAPI-Key': API_KEY
             }
-        }).then(response => response.json())
+        })
+        .then(response => response.json())
         .then(responseJson =>
             createStandingSection(responseJson))
-            .catch(err => {$('.errors').append(`There was an error getting Standings: ${err.message}`);
+        .catch(err => {$('.errors').append(`There was an error getting Standings: ${err.message}`);
         });
-            //console.log(responseJson));
 }
 
 function createStandingSection(response){
     let elem = $('.items');
-    addSectionWrapper(elem, 'Standings', 'standings');
-    createStandingTable('standings', response);
+    $('.loading-standings').addClass('no-display');
+    if(response.api.results !== 0){
+        createStandingTable('standings', response);
+    }else{
+       $('.standings').append('Standings Information si currently not available');
+    }
 }
 
 function addSubTitle(element, title){
@@ -160,23 +189,12 @@ function addSubTitle(element, title){
                     </div>`);
 }
 
-function addSectionWrapper(element, section, type){
-    element.append(`<div class="section-wrapper">
-    <h2 class="section-title">
-        ${section}
-    </h2>
-    <div class="item-section ${type}">`);
-}
-
 function createStandingTable(type, response){
-    //console.log(response);
     const standArray = response.api.standings[0];
 
     $(`.${type}`).append(`<table class="${type}-table"></table>`);
     $(`.${type}-table`).append(createStandingTableHeaders(type));
     $(`.${type}-table`).append(createStandingTableRows(standArray, type));
-
-
 }
 
 function createStandingTableHeaders(type){
@@ -212,10 +230,51 @@ function createStandingTableRows(array, type){
 
 }
 
+function getPlayers(id){
+    let url = URL + 'players/squad/' + id+ '/2019';
+    
+    $('.modal-content').empty();
+    fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': API_KEY
+            }
+        })
+        .then(response => response.json())
+        .then(responseJson =>
+            createPlayerSection(responseJson))
+        .catch(err => {$('.errors').append(`There was an error getting Players: ${err.message}`);
+        });
+}
+
+function createPlayerSection(response){
+    const array = response.api.players;
+    $('.modal-content').append('<span class="close-modal">&times;</span><h3>Team Roster</h3>');
+
+    if(response.api.results > 0){
+        $(`.modal-content`).append('<table class="player-table"></table>');
+
+        let headers = '<tr class="player-headers"><th>Name</th><th>Position</th></th></tr>';
+
+        $('.player-table').append(headers);
+        array.forEach(element => {
+            let str = `<tr>
+                        <td>${element.player_name}</td>
+                        <td>${element.position}</td>
+                    </tr>`;
+            $('.player-table').append(str);
+        });
+    }else{
+        $(`.modal-content`).append('<span class="player-error">No player data is currently available</span>');
+    }
+    
+}
+
 function eventListeners() {
     $('.items').on('click', '.league-btn', function () {
         let val = $(this).attr('data-val');
         let leagueName = $(this).attr('data-name');
+        teamViewSetup(leagueName);
         getLeagueDetails(leagueName, val);
     });
 
@@ -225,6 +284,16 @@ function eventListeners() {
 
     $('.nav').on('click', '.nav-home', function () {
         displayLeagues();
+    });
+
+    $('.items').on('click', '.teams-card', function(){
+        let val = $(this).attr('data-val');
+        getPlayers(val);
+        $('.modal').removeClass('modal-noDisplay');
+    });
+
+    $('.modal').on('click', '.close-modal', function(){
+        $('.modal').addClass('modal-noDisplay');
     });
 }
 
