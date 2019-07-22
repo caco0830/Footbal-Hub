@@ -21,7 +21,7 @@ function createLeagueCards(array, appendTo){
     appendTo.append(`<ul class="league-list item-section"></ul>`);
     array.forEach(element => {
         let str = `<li role="button" class="league-btn item-card leagues-card" data-name="${element.name}" data-val="${element.league_id}">
-                        <span>${element.name}</span>
+                        <img class="logo" src="${element.logo}" alt="${element.name}"></img>
                     </li>`;
         $('.league-list').append(str);
     });
@@ -97,7 +97,6 @@ function getRound(array){
 }
 
 function createScheduleCards(array, type){
-    console.log(array.length);
     if(array.length > 0){
         let str = getRound(array);
         if(str !== 'No Upcomming Games'){
@@ -108,8 +107,8 @@ function createScheduleCards(array, type){
                 if(element.round === str){
                     let date = new Date(element.event_date);
                     let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
-                                    <div>${element.homeTeam.team_name} vs ${element.awayTeam.team_name}</div>
-                                    <div>${date}</div>
+                                    <div><img src="${element.homeTeam.logo}" alt="${element.homeTeam.team_name}"></img> vs <img src="${element.awayTeam.logo}" alt="${element.awayTeam.team_name}"></div>
+                                    <div>${date.toDateString()}</div>
                                 </li>`;
                     $(`.${type}-list`).append(str);
                 }
@@ -152,7 +151,8 @@ function createTeamCards(array, type){
 
     array.forEach(element => {
         let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.team_id}">
-                        <span>${element.name}</span>
+                        <p>${element.name}</p>
+                        <img class="team-logo" src="${element.logo}" alt="${element.name}"></img>
                     </li>`;
         $(`.${type}-list`).append(str);
     });
@@ -205,8 +205,8 @@ function createStandingTableHeaders(type){
                         <th>Wins</th>
                         <th>Draws</th>
                         <th>Loss</th>
-                        <th>Goals For</th>
-                        <th>Goals Against</th>
+                        <th>GF</th>
+                        <th>GA</th>
                     </tr>`;
     return headers;
 }
