@@ -1,6 +1,17 @@
-//TODO: Modal for team roster view
+//Post on slack to get feedback
+
 //TODO: add url routing (so user can click back on browser)
-//Add loading message/animation
+
+//Make loading gif bigger
+//Sort teams alphabetically
+//Group players by position
+    //sort by name within box
+
+//add smooth scrolling
+
+
+    //add logo to league name on team page view
+
 
 "use strict";
 const URL = 'https://api-football-v1.p.rapidapi.com/v2/';
@@ -20,17 +31,17 @@ function displayLeagues() {
 function createLeagueCards(array, appendTo){
     appendTo.append(`<ul class="league-list item-section"></ul>`);
     array.forEach(element => {
-        let str = `<li role="button" class="league-btn item-card leagues-card" data-name="${element.name}" data-val="${element.league_id}">
+        let str = `<li role="button" class="league-btn item-card leagues-card" data-name="${element.name}" data-val="${element.league_id}" data-logo="${element.logo}">
                         <img class="logo" src="${element.logo}" alt="${element.name}"></img>
                     </li>`;
         $('.league-list').append(str);
     });
 }
 
-function teamViewSetup(title){
+function teamViewSetup(title, logo){
     let elem = $('.items');
     elem.empty();
-    addSubTitle(elem, title);
+    addSubTitle(elem, title, logo);
     addSectionWrapper(elem, 'Upcoming Games', 'schedule');
     addSectionWrapper(elem, 'Teams', 'teams');
     addSectionWrapper(elem, 'Standings', 'standings');
@@ -108,7 +119,7 @@ function createScheduleCards(array, type){
                     let date = new Date(element.event_date);
                     let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
                                     <div><img src="${element.homeTeam.logo}" alt="${element.homeTeam.team_name}"></img> vs <img src="${element.awayTeam.logo}" alt="${element.awayTeam.team_name}"></div>
-                                    <div>${date.toDateString()}</div>
+                                    <div class="date">${date.toDateString()}</div>
                                 </li>`;
                     $(`.${type}-list`).append(str);
                 }
@@ -183,9 +194,9 @@ function createStandingSection(response){
     }
 }
 
-function addSubTitle(element, title){
+function addSubTitle(element, title, logo){
     element.append(`<div class="page-title">
-                        <h1>${title}</h1>
+                        <h1 class="title">${title}</h1>
                     </div>`);
 }
 
@@ -274,12 +285,9 @@ function eventListeners() {
     $('.items').on('click', '.league-btn', function () {
         let val = $(this).attr('data-val');
         let leagueName = $(this).attr('data-name');
-        teamViewSetup(leagueName);
+        let leagueLogo = $(this).attr('data-logo');
+        teamViewSetup(leagueName, leagueLogo);
         getLeagueDetails(leagueName, val);
-    });
-
-    $('.items').on('click', '.team-btn', function () {
-        let val = $(this).attr('data-val');
     });
 
     $('.nav').on('click', '.nav-home', function () {
@@ -290,10 +298,12 @@ function eventListeners() {
         let val = $(this).attr('data-val');
         getPlayers(val);
         $('.modal').removeClass('modal-noDisplay');
+        $('body').addClass('no-scroll');
     });
 
     $('.modal').on('click', '.close-modal', function(){
         $('.modal').addClass('modal-noDisplay');
+        $('body').removeClass('no-scroll');
     });
 }
 
