@@ -15,10 +15,6 @@ body {
     color: red;
 }
 
-.no-scroll{
-    overflow-y:hidden;
-}
-
 /*****************************************Nav***************************/
 .nav {
     background-color: #50723c;

@@ -1,22 +1,6 @@
-//Post on slack to get feedback
-
-//TODO: add url routing (so user can click back on browser)
-
-//Make loading gif bigger
-//Sort teams alphabetically
-//Group players by position
-    //sort by name within box
-
-//add smooth scrolling
-
-
-    //add logo to league name on team page view
-
-
 "use strict";
 const URL = 'https://api-football-v1.p.rapidapi.com/v2/';
 const API_KEY = 'c320accca4msh5912334e6a8f069p1af71cjsnffb1c61ee173';
-
 
 function displayLeagues() {
     let resp = JSON.parse(league_data);
@@ -48,7 +32,6 @@ function teamViewSetup(title, logo){
 }
 
 function addSectionWrapper(element, section, type){
-    console.log('Adding Wrappers' + section + type + element);
     element.append(`<div class="section-wrapper">
     <h2 class="section-title">
         ${section}
@@ -238,7 +221,6 @@ function createStandingTableRows(array, type){
     });
 
     return ret;
-
 }
 
 function getPlayers(id){
@@ -298,12 +280,10 @@ function eventListeners() {
         let val = $(this).attr('data-val');
         getPlayers(val);
         $('.modal').removeClass('modal-noDisplay');
-        $('body').addClass('no-scroll');
     });
 
     $('.modal').on('click', '.close-modal', function(){
         $('.modal').addClass('modal-noDisplay');
-        $('body').removeClass('no-scroll');
     });
 }
 
