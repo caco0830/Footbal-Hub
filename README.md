@@ -28,7 +28,3 @@ Team View:
 Teams:
 
 ![Teams](screenshots/teams.png)
-
-Roster:
-
-![Roster](screenshots/roster.png)

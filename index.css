@@ -74,6 +74,7 @@ form {
 /*************************************items****************************/
 .logo{
     height: 150px;
+    max-width: 100%;
 }
 
 .items ul {
@@ -107,6 +108,7 @@ form {
 
 .item-card {
     width: 100%;
+    min-width: 335px;
     min-height: 50px;
     background: white;
     margin: 10px;
@@ -144,10 +146,6 @@ form {
 }
 
 .leagues-card:hover{
-    cursor: pointer;
-}
-
-.teams-card:hover{
     cursor: pointer;
 }
 

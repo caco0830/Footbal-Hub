@@ -6,7 +6,6 @@ function displayLeagues() {
     let resp = JSON.parse(league_data);
     const array = resp.api.leagues;
     let elem = $('.items');
-    //console.log(array);
     elem.empty();
     elem.append('<h1>Select a League</h1>');
     createLeagueCards(array, elem);
@@ -36,7 +35,7 @@ function addSectionWrapper(element, section, type){
     <h2 class="section-title">
         ${section}
     </h2>
-    <div class="item-section ${type}"><img class="loading-${type}" src="./resources/ajax-loader.gif"></div></div>`);
+    <div class="item-section ${type}"><img class="loading-${type}" src="./resources/ajax-loader.gif" alt="loading"></div></div>`);
 }
 
 function getLeagueDetails(title, id){
@@ -68,7 +67,7 @@ function createScheduleSection(response){
     $('.loading-schedule').addClass('no-display');
 }
 
-function getRound(array){
+function getScheduleRound(array){
     let r = '';
     let today = new Date();
     let d = new Date(array[0].event_date);
@@ -92,7 +91,7 @@ function getRound(array){
 
 function createScheduleCards(array, type){
     if(array.length > 0){
-        let str = getRound(array);
+        let str = getScheduleRound(array);
         if(str !== 'No Upcomming Games'){
             $(`.loading-${type}`).addClass('no-display');
             $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
@@ -223,46 +222,6 @@ function createStandingTableRows(array, type){
     return ret;
 }
 
-function getPlayers(id){
-    let url = URL + 'players/squad/' + id+ '/2019';
-    
-    $('.modal-content').empty();
-    fetch(url, {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': API_KEY
-            }
-        })
-        .then(response => response.json())
-        .then(responseJson =>
-            createPlayerSection(responseJson))
-        .catch(err => {$('.errors').append(`There was an error getting Players: ${err.message}`);
-        });
-}
-
-function createPlayerSection(response){
-    const array = response.api.players;
-    $('.modal-content').append('<span class="close-modal">&times;</span><h3>Team Roster</h3>');
-
-    if(response.api.results > 0){
-        $(`.modal-content`).append('<table class="player-table"></table>');
-
-        let headers = '<tr class="player-headers"><th>Name</th><th>Position</th></th></tr>';
-
-        $('.player-table').append(headers);
-        array.forEach(element => {
-            let str = `<tr>
-                        <td>${element.player_name}</td>
-                        <td>${element.position}</td>
-                    </tr>`;
-            $('.player-table').append(str);
-        });
-    }else{
-        $(`.modal-content`).append('<span class="player-error">No player data is currently available</span>');
-    }
-    
-}
-
 function eventListeners() {
     $('.items').on('click', '.league-btn', function () {
         let val = $(this).attr('data-val');
@@ -274,16 +233,6 @@ function eventListeners() {
 
     $('.nav').on('click', '.nav-home', function () {
         displayLeagues();
-    });
-
-    $('.items').on('click', '.teams-card', function(){
-        let val = $(this).attr('data-val');
-        getPlayers(val);
-        $('.modal').removeClass('modal-noDisplay');
-    });
-
-    $('.modal').on('click', '.close-modal', function(){
-        $('.modal').addClass('modal-noDisplay');
     });
 }
 
