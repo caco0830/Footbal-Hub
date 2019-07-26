@@ -91,13 +91,13 @@ function getScheduleRound(array){
 
 function createScheduleCards(array, type){
     if(array.length > 0){
-        let str = getScheduleRound(array);
-        if(str !== 'No Upcomming Games'){
+        let round = getScheduleRound(array);
+        if(round !== 'No Upcomming Games'){
             $(`.loading-${type}`).addClass('no-display');
             $(`.${type}`).append(`<ul class="${type}-list"></ul>`);
 
             array.forEach(element => {
-                if(element.round === str){
+                if(element.round === round){
                     let date = new Date(element.event_date);
                     let str = `<li role="button" class="${type}-btn item-card ${type}-card" data-val="${element.fixture_id}">
                                     <div><img src="${element.homeTeam.logo}" alt="${element.homeTeam.team_name}"></img> vs <img src="${element.awayTeam.logo}" alt="${element.awayTeam.team_name}"></div>
@@ -172,7 +172,7 @@ function createStandingSection(response){
     if(response.api.results !== 0){
         createStandingTable('standings', response);
     }else{
-       $('.standings').append('Standings Information si currently not available');
+       $('.standings').append('Standings Information is currently not available');
     }
 }
 
